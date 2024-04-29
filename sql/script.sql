@@ -302,6 +302,42 @@ ALTER TABLE `seg_usuarios`
   ADD CONSTRAINT `fk_usuarios_rol` FOREIGN KEY (`usu_rol`) REFERENCES `seg_rol` (`rol_codigo`) ON UPDATE CASCADE;
 COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- TABLA DE INGRESOS DEL PRESUPUESTO
+
+CREATE TABLE `db_finanzas`.`fin_presupuesto_ingreso` (
+  `ping_codigo` INT NOT NULL AUTO_INCREMENT,
+  `ping_presupuesto` INT NOT NULL,  -- Código del presupuesto asociado
+  `ping_ingreso` INT NOT NULL,  -- Código del ingreso
+  `ping_cantidad` INT NOT NULL,
+  `ping_precio_unitario` FLOAT NOT NULL,
+  `ping_fecha_registro` DATETIME NOT NULL,
+  `ping_usuario` INT NOT NULL,
+  PRIMARY KEY (`ping_codigo`, `ping_presupuesto`),  -- Clave primaria compuesta
+  INDEX `idx_ping_presupuesto` (`ping_presupuesto`),  -- Índice para mejorar las búsquedas sobre ping_presupuesto
+  CONSTRAINT `fk_ping_presupuesto`
+    FOREIGN KEY (`ping_presupuesto`) REFERENCES `fin_presupuesto` (`pre_codigo`),
+  CONSTRAINT `fk_ping_ingreso`
+    FOREIGN KEY (`ping_ingreso`) REFERENCES `fin_ingreso` (`ing_codigo`),
+  CONSTRAINT `fk_ping_usuario`
+    FOREIGN KEY (`ping_usuario`) REFERENCES `seg_usuarios` (`usu_codigo`)
+) ENGINE = InnoDB;
+
+-- TABLA DE EGRESOS DEL PRESUPUESTO
+
+CREATE TABLE `db_finanzas`.`fin_presupuesto_egreso` (
+  `pegr_codigo` INT NOT NULL AUTO_INCREMENT,
+  `pegr_presupuesto` INT NOT NULL,  -- Código del presupuesto asociado
+  `pegr_egreso` INT NOT NULL,  -- Código del egreso
+  `pegr_cantidad` INT NOT NULL,
+  `pegr_precio_unitario` FLOAT NOT NULL,
+  `pegr_fecha_registro` DATETIME NOT NULL,
+  `pegr_usuario` INT NOT NULL,
+  PRIMARY KEY (`pegr_codigo`, `pegr_presupuesto`),  -- Clave primaria compuesta
+  INDEX `idx_pegr_presupuesto` (`pegr_presupuesto`),  -- Índice para mejorar las búsquedas sobre pegr_presupuesto
+  CONSTRAINT `fk_pegr_presupuesto`
+    FOREIGN KEY (`pegr_presupuesto`) REFERENCES `fin_presupuesto` (`pre_codigo`),
+  CONSTRAINT `fk_pegr_egreso`
+    FOREIGN KEY (`pegr_egreso`) REFERENCES `fin_egreso` (`egr_codigo`),
+  CONSTRAINT `fk_pegr_usuario`
+    FOREIGN KEY (`pegr_usuario`) REFERENCES `seg_usuarios` (`usu_codigo`)
+) ENGINE = InnoDB;
