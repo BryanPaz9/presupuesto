@@ -20,13 +20,13 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `db_finanzas`
 --
-
--- --------------------------------------------------------
+CREATE DATABASE db_finanzas;
+-- -------------------------------------- ------------------
 
 --
 -- Estructura de tabla para la tabla `fin_egreso`
 --
-
+USE db_finanzas;
 CREATE TABLE `fin_egreso` (
   `egr_codigo` int(11) NOT NULL,
   `egr_nombre` varchar(50) NOT NULL,
